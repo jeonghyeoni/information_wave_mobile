@@ -11,7 +11,7 @@ let keyword;
 let searchButton;
 let gameStarted = false;
 let screenSize = 320;
-let joystickSize = 40;
+let joystickSize = 60;
 let joyX = 0;
 let joyY = 0;
 let joystick;
