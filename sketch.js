@@ -3,7 +3,7 @@ let intervalX = 0;
 let intervalY = 0;
 const noiseScale = 0.02; //wave speed
 const fontSize = 18;
-const playerSpeed = 1;
+const playerSpeed = 2;
 const playerSize = 10;
 let pFrame = 0;
 let userInput;
