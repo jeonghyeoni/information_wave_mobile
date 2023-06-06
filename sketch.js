@@ -15,6 +15,7 @@ let joystickSize = 60;
 let joyX = 0;
 let joyY = 0;
 let joystick;
+let touched = false;
 
 function preload() {
   roboto = loadFont("Roboto-Regular.ttf");
@@ -76,7 +77,6 @@ function draw() {
   fill(0);
   stroke(255);
   rect(width / 2, height / 2, screenSize * 2, screenSize * 2);
-
   
   wave.show();
   fill(0, 255, 255);
@@ -84,6 +84,9 @@ function draw() {
   player.restriction();
   player.show();
   joystick.show();
+  if(touched){
+    player.updateByJoystick();
+    }
 }
 
 /*---------------------------------------------------------------------*/
@@ -373,12 +376,13 @@ function fetchWikipediaContent(keyword) {
 
 function touchMoved() {
   gameStarted = true;
+  touched = true;
   joystick.update();
-  player.updateByJoystick();
   return false;
 }
 
 function touchEnded() {
+  touched = false;
   joystick.posX = 0;
   joystick.posY = 0;
 }
