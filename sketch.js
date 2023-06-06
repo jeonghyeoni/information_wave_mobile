@@ -11,7 +11,7 @@ let keyword;
 let searchButton;
 let gameStarted = false;
 let screenSize = 320;
-let joystickSize;
+let joystickSize = 60;
 let joyX = 0;
 let joyY = 0;
 let joystick;
@@ -24,10 +24,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   if (height < width) {
     screenSize = height / 2.5;
-    joystickSize = width / 8;
   } else {
     screenSize = width / 2.5;
-    joystickSize = height / 8;
   }
 
   //createCanvas(900, 800);
