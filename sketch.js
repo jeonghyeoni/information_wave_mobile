@@ -2,7 +2,7 @@ let string = "Please enter a keyword ";
 let intervalX = 0;
 let intervalY = 0;
 const noiseScale = 0.02; //wave speed
-let fontSize = 18;
+const fontSize = 18;
 const playerSpeed = 1;
 const playerSize = 10;
 let pFrame = 0;
@@ -29,8 +29,6 @@ function setup() {
   } else {
     screenSize = width / 2.5;
   }
-  
-  fontSize = int(screenSize / 20);
 
   // 사용자 입력을 받는 input 요소
   userInput = createInput();
