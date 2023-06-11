@@ -3,7 +3,7 @@ let intervalX = 0;
 let intervalY = 0;
 const noiseScale = 0.02; //wave speed
 const fontSize = 18;
-const playerSpeed = 2;
+const playerSpeed = 1;
 const playerSize = 10;
 let pFrame = 0;
 let userInput;
@@ -18,41 +18,60 @@ let joystick;
 let touched = false;
 
 function preload() {
-  roboto = loadFont("Roboto-Regular.ttf");
+  roboto = loadFont("Pretendard-Regular.otf");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  
   if (height < width) {
     screenSize = height / 2.5;
   } else {
     screenSize = width / 2.5;
   }
-
-  //createCanvas(900, 800);
+  
+  fontsize = int(screenSize / 45);
 
   // 사용자 입력을 받는 input 요소
   userInput = createInput();
-  userInput.position(20, 20);
+  userInput.size(200);
+  userInput.position(width/2 - 100, height/2 + screenSize);
+  
   // 버튼을 클릭하면 Wikipedia 내용을 가져와 콘솔에 출력
-  const searchButton = createButton("Search");
-  searchButton.position(20, 50);
+  const searchButton = createButton('Search');
+  searchButton.position(width/2 + 100, height/2 + screenSize);
   searchButton.mousePressed(() => {
     keyword = userInput.value();
     gameStarted = false;
-    fetchWikipediaContent(keyword)
-      .then((content) => {
+    if(isAlnum(keyword)){ //keyword가 영어일 경우
+      intervalX = 15;
+      fetchWikipediaContent(keyword)
+      .then(content => {
         string = content; // Promise의 결과 값을 string 변수에 할당
-        if (!string) {
+        if(!string){
           string = "Search results do not exist. Please enter another keyword.";
         }
         wave = new Wave(string, intervalX, intervalY, noiseScale, fontSize);
       })
-      .catch((error) => {
-        console.error("Error:", error);
+      .catch(error => {
+        console.error('Error:', error);
       });
-  });
-
+    } 
+    else{ //keyword가 한국어일 경우
+      intervalX = 20;
+      fetchWikipediaContentKorean(keyword)
+      .then(content => {
+        string = content; // Promise의 결과 값을 string 변수에 할당
+        if(!string){
+          string = "Search results do not exist. Please enter another keyword.";
+        }
+        wave = new Wave(string, intervalX, intervalY, noiseScale, fontSize);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });                    
+    }
+  }); /*searchButton Pressed*/
   intervalX = 15;
   intervalY = 40;
   joyX = width - joystickSize - 20;
@@ -372,6 +391,37 @@ function fetchWikipediaContent(keyword) {
         reject(error);
       });
   });
+}
+
+function fetchWikipediaContentKorean(keyword){
+  return new Promise((resolve, reject) => {
+    const url = `https://ko.wikipedia.org/w/api.php?action=query&prop=extracts&exsentences=9&exlimit=1&titles=${encodeURIComponent(keyword)}&explaintext=1&format=json&formatversion=2&origin=*`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const page = data.query.pages[0];
+        const content = page.extract;
+        console.log(content);
+        resolve(content);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        reject(error);
+      });
+  });
+}
+
+function isAlnum(text) {
+  for (let i = 0; i < text.length; i++) {
+    let charCode = text.charCodeAt(i);
+    if ((charCode < 0x0041 || charCode > 0x005A) && // 대문자 A-Z
+        (charCode < 0x0061 || charCode > 0x007A) && // 소문자 a-z
+        (charCode < 0x0030 || charCode > 0x0039)) { // 숫자 0-9
+      return false;
+    }
+  }
+  return true;
 }
 
 function touchMoved() {
