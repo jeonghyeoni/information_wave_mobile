@@ -324,7 +324,7 @@ class Wave {
       this.bound = font.textBounds(this.string[this.index], this.c.x, this.c.y, this.size);
       
       for(k = 0; k<this.keyword.length; k++){
-        if(this.string[this.index+k] == this.keyword[k] || this.string[this.index+k] == this.keyword[k].toUpperCase()){
+        if(this.string[this.index+k] == this.keyword[k] || this.string[this.index+k] == this.keyword[k].toUpperCase() || this.string[this.index+k] == this.keyword[k].toLowerCase()){
           target = true;
         }
         else{
