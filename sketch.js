@@ -530,7 +530,7 @@ function gameOverCheck(life, score){
     strokeWeight(40);
     stroke(0, 150);
     
-    textSize(100);
+    textSize(60);
     fill(255);
     text("GAME OVER", width/2, height/2 -35);
     
@@ -550,6 +550,7 @@ function gameOverCheck(life, score){
       string = "Please enter a keyword ";
       wave = new Wave(keyword, string, intervalX, intervalY, noiseScale, fontSize);
       player = new Player(width/2, height - 20, playerSize, playerSize, playerSpeed);
+      joystick = new Joystick(joyX, joyY, joystickSize, player);
       loop();
       playButton.remove();
     });
