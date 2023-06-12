@@ -169,7 +169,7 @@ class Player {
   collision(other, scoreSystem, lifeSystem) {
     let n;
     let index;
-    let cutScale = 0.1;
+    let cutScale = 1;
 
     for (let i = 0; i < other.arr.length; i++) {
       index = i % other.string.length;
@@ -558,6 +558,7 @@ function gameOverCheck(life, score){
       wave = new Wave(keyword, string, intervalX, intervalY, noiseScale, fontSize);
       player = new Player(width/2, height - 20, playerSize, playerSize, playerSpeed);
       joystick = new Joystick(joyX, joyY, joystickSize, player);
+      gameOver = false;
       playButton.remove();
     });
   }
