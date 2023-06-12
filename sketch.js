@@ -18,7 +18,7 @@ let joystick;
 let touched = false;
 
 function preload() {
-  roboto = loadFont("assets/Pretendard-Regular.otf");
+  font = loadFont("assets/Pretendard-Regular.otf");
   tone = loadSound('assets/Tone.mp3');
 }
 
@@ -85,7 +85,7 @@ function setup() {
   life = new Life(0, 0, width, 8);
   
   background(0);
-  textFont(roboto);
+  textFont(font);
   textAlign(LEFT, TOP);
   textSize(fontSize);
   //noLoop();
@@ -169,7 +169,7 @@ class Player {
 
     for (let i = 0; i < other.arr.length; i++) {
       index = i % other.string.length;
-      let bound = roboto.textBounds(other.string[index], other.arr[i].x, other.arr[i].y, other.size);
+      let bound = font.textBounds(other.string[index], other.arr[i].x, other.arr[i].y, other.size);
 
       if (bound.x <= this.pos.x + this.w && this.pos.x + this.w <= bound.x + bound.w) {
         if (bound.y <= this.pos.y && this.pos.y <= bound.y + bound.h) {
@@ -296,19 +296,20 @@ class Wave {
     }
   }
 
-  show(){
+ show(){
     let space = false;
     let j, k;
     let target = false;
     this.targets = [];
     
+    strokeWeight(1);
     textSize(this.size);
     textAlign(LEFT, TOP);
-    strokeWeight(1);
-    stroke(255);
     fill(255);
     
     for (let i = 0; i < this.arr.length; i++) {
+      stroke(255);
+      
       this.index = i % this.string.length;
       this.c = this.arr[i];
       
@@ -320,7 +321,7 @@ class Wave {
         j++;
       }
       
-      this.bound = roboto.textBounds(this.string[this.index], this.c.x, this.c.y, this.size);
+      this.bound = font.textBounds(this.string[this.index], this.c.x, this.c.y, this.size);
       
       for(k = 0; k<this.keyword.length; k++){
         if(this.string[this.index+k] == this.keyword[k] || this.string[this.index+k] == this.keyword[k].toUpperCase()){
@@ -340,6 +341,9 @@ class Wave {
       
       if(this.targets.includes(this.c) && !this.removed.includes(this.c)){
         fill('yellow');
+      } else if(this.removed.includes(this.c)){
+        stroke(0, 0);
+        fill(0, 0);
       } else{
         fill(255);
       }
