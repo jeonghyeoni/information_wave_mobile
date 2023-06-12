@@ -17,6 +17,7 @@ let joyX = 0;
 let joyY = 0;
 let joystick;
 let touched = false;
+let replayButton;
 
 function preload() {
   font = loadFont("assets/Pretendard-Regular.otf");
@@ -26,6 +27,10 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   tone.setVolume(0.3);
+  replayButton = createButton('play again');
+  replayButton.size(80);
+  replayButton.position(width/2 - 40, height/2 + 100);
+  replayButton.hide();
   
   if (height < width) {
     screenSize = height / 2.5;
@@ -547,10 +552,8 @@ function gameOverCheck(life, score){
     text(`Score: ${score.currentScore}`, width/2, height/2 + 45);
     text(`Best Score: ${score.currentScore}`, width/2, height/2 + 75);
     
-    playButton = createButton('play again');
-    playButton.size(80);
-    playButton.position(width/2 - 40, height/2 + 100);
-    playButton.mousePressed(() => {
+    replayButton.show();
+    replayButton.mousePressed(() => {
       life.health = 100;
       score.currentScore = 0;
       keyword = '';
@@ -559,7 +562,7 @@ function gameOverCheck(life, score){
       player = new Player(width/2, height - 20, playerSize, playerSize, playerSpeed);
       joystick = new Joystick(joyX, joyY, joystickSize, player);
       gameOver = false;
-      playButton.remove();
+      replayButton.hide();
     });
   }
 }
