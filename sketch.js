@@ -10,6 +10,7 @@ let userInput;
 let keyword = '';
 let searchButton;
 let gameStarted = false;
+let gameOver = false;
 let screenSize = 320;
 let joystickSize = 60;
 let joyX = 0;
@@ -95,6 +96,7 @@ function draw() {
   background(0);
   fill(0);
   stroke(255);
+  strokeWeight(1);
   
   rectMode(CENTER);
   rect(width / 2, height / 2, screenSize * 2, screenSize * 2);
@@ -102,7 +104,9 @@ function draw() {
   wave.show();
   
   fill(0, 255, 255);
+  if(gameStarted){
   player.collision(wave, score, life);
+  }
   player.restriction();
   player.show();
   
@@ -165,7 +169,7 @@ class Player {
   collision(other, scoreSystem, lifeSystem) {
     let n;
     let index;
-    let cutScale = 0.05;
+    let cutScale = 1;
 
     for (let i = 0; i < other.arr.length; i++) {
       index = i % other.string.length;
@@ -449,6 +453,7 @@ class Joystick {
     pop();
   }
   update() {
+    gameStarted = true;
     let centerPoint = createVector(this.centerX, this.centerY);
     let fingerPos = createVector(touches[0].x, touches[0].y);
     let base = createVector(this.size, 0);
@@ -525,7 +530,9 @@ function isAlnum(text) {
 
 function gameOverCheck(life, score){
   if(life.health <= 0){
-    noLoop();
+    touched = false;
+    gameOver = true;
+    gameStarted = false;
     textAlign(CENTER, CENTER);
     strokeWeight(40);
     stroke(0, 150);
@@ -551,16 +558,19 @@ function gameOverCheck(life, score){
       wave = new Wave(keyword, string, intervalX, intervalY, noiseScale, fontSize);
       player = new Player(width/2, height - 20, playerSize, playerSize, playerSpeed);
       joystick = new Joystick(joyX, joyY, joystickSize, player);
-      loop();
       playButton.remove();
     });
   }
 }
 
 function touchMoved() {
+  if(!gameOver){
   gameStarted = true;
   touched = true;
+  }
+  if(gameStarted){
   joystick.update();
+  }
   return false;
 }
 
