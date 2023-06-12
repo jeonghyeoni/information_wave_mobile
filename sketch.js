@@ -3,7 +3,7 @@ let intervalX = 0;
 let intervalY = 0;
 const noiseScale = 0.02; //wave speed
 const fontSize = 18;
-const playerSpeed = 1;
+const playerSpeed = 2;
 const playerSize = 10;
 let pFrame = 0;
 let userInput;
@@ -525,8 +525,6 @@ function isAlnum(text) {
 
 function gameOverCheck(life, score){
   if(life.health <= 0){
-    push();
-    translate(0, -35);
     noLoop();
     textAlign(CENTER, CENTER);
     strokeWeight(40);
@@ -534,13 +532,13 @@ function gameOverCheck(life, score){
     
     textSize(100);
     fill(255);
-    text("GAME OVER", width/2, height/2);
+    text("GAME OVER", width/2, height/2 -35);
     
     textSize(20);
     strokeWeight(10);
     fill('red');
-    text(`Score: ${score.currentScore}`, width/2, height/2 + 80);
-    text(`Best Score: ${score.currentScore}`, width/2, height/2 + 110);
+    text(`Score: ${score.currentScore}`, width/2, height/2 + 45);
+    text(`Best Score: ${score.currentScore}`, width/2, height/2 + 75);
     
     playButton = createButton('play again');
     playButton.size(80);
@@ -555,7 +553,6 @@ function gameOverCheck(life, score){
       loop();
       playButton.remove();
     });
-    pop();
   }
 }
 
